@@ -45,6 +45,7 @@
     - local_action: copy src="files/{{ iso_distro }}/{{ iso_version }}/boot/grub/grub.cfg" dest="{{ new_iso }}/boot/grub/grub.cfg"
     # MBR/Legacy Boot
     - local_action: file dest="{{ new_iso }}/isolinux" mode=0775
+    - local_action: copy src="files/{{ iso_distro }}/{{ iso_version }}/isolinux/isolinux.cfg" dest="{{ new_iso }}/isolinux/isolinux.cfg"
     - local_action: copy src="files/{{ iso_distro }}/{{ iso_version }}/isolinux/txt.cfg" dest="{{ new_iso }}/isolinux/txt.cfg"
 
     # build the ISO
