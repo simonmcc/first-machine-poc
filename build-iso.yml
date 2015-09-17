@@ -39,7 +39,7 @@
 
     - local_action: file dest="{{ new_iso }}" mode=0775
     - local_action: copy src="files/{{ iso_distro }}/{{ iso_version }}/ks.preseed" dest="{{ new_iso }}/ks.preseed"
-    - local_action: copy src="files/{{ iso_distro }}/{{ iso_version }}/ks.cfg" dest="{{ new_iso }}/ks.cfg"
+    - local_action: template src="templates/ks.cfg.j2" dest="{{ new_iso }}/ks.cfg"
     # EFI Boot
     - local_action: file dest="{{ new_iso }}/boot/grub" mode=0775
     - local_action: copy src="files/{{ iso_distro }}/{{ iso_version }}/boot/grub/grub.cfg" dest="{{ new_iso }}/boot/grub/grub.cfg"
