@@ -23,6 +23,17 @@
     mounted_iso: "{{ workdir }}/mounted_iso/"
     new_iso: "{{ workdir }}/new_iso/"
 
+    iso_dhcp: false
+    iso_ip:  10.0.2.15
+    iso_netmask: 255.255.255.0
+    iso_gateway: 10.0.2.2
+    iso_dns: 10.0.2.3
+    iso_ntp: 10.0.2.2
+
+    iso_username: stack
+    iso_fullname: stack
+    iso_encrypted_password: "$6$SvgLlx4z$NYZEdu.dtX8qtNNlJzB5wVeVK4G4SQsDrilolou3/xWXp/U.pD.EY/mvaG.dEkjQWl8knPLIXmGoK/Kn6zrR8."
+
   tasks:
     #- local_action: apt name=dumpet
     #- local_action: apt name=mkisofs

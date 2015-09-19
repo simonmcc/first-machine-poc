@@ -5,8 +5,12 @@ langsupport en_US
 keyboard us
 mouse
 timezone Etc/UTC
+{% if iso_username %}
 rootpw --disabled
-user stack --fullname "stack" --password "stack"
+user stack --fullname "stack" --iscrypted --password "{{ iso_encrypted_password }}"
+{% else %}
+rootpw --iscrypted "{{ iso_encrypted_password }}"
+{% endif %}
 reboot
 text
 install
@@ -22,10 +26,11 @@ zerombr yes
 # Partition clearing information
 clearpart --all --initlabel
 
-# network --device=eth0 --bootproto=static --ip=10.0.0.50 --netmask=255.255.255.0 \
-#         --nameserver=10.0.0.1 --gateway=10.0.0.1
-
+{% if iso_dhcp %}
 network --bootproto=dhcp --device=eth0
+{% else %}
+network --device=eth0 --bootproto=static --ip={{ iso_ip }} --netmask={{ iso_netmask }} --nameserver={{ iso_dns }} --gateway={{ iso_gateway }}
+{% endif %}
 
 firewall --disabled
 skipx
