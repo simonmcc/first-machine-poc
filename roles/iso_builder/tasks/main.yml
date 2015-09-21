@@ -1,0 +1,36 @@
+---
+# tasks file for iso-builder
+- apt: name=dumpet
+- apt: name=mkisofs
+- get_url: url={{ iso_url }} dest={{ workdir }}/{{ iso_name }}
+- file: state=directory path={{ mounted_iso }}
+- command: sudo mount -o loop,ro {{ workdir }}/{{ iso_name }} {{ mounted_iso }}
+  args:
+    creates: "{{ mounted_iso }}/isolinux"
+- command: rsync -av --delete {{ mounted_iso }} {{ new_iso }}
+
+# start the customisation
+- file: dest="{{ new_iso }}/isolinux" mode=0775
+- copy: content="en" dest="{{ new_iso }}/isolinux/lang"
+
+- file: dest="{{ new_iso }}" mode=0775
+- copy: src="files/{{ iso_distro }}/{{ iso_version }}/ks.preseed" dest="{{ new_iso }}/ks.preseed"
+- template: src="templates/ks.cfg.j2" dest="{{ new_iso }}/ks.cfg"
+# EFI Boot
+- file: dest="{{ new_iso }}/boot/grub" mode=0775
+- copy: src="files/{{ iso_distro }}/{{ iso_version }}/boot/grub/grub.cfg" dest="{{ new_iso }}/boot/grub/grub.cfg"
+# MBR/Legacy Boot
+- file: dest="{{ new_iso }}/isolinux" mode=0775
+- copy: src="files/{{ iso_distro }}/{{ iso_version }}/isolinux/isolinux.cfg" dest="{{ new_iso }}/isolinux/isolinux.cfg"
+- copy: src="files/{{ iso_distro }}/{{ iso_version }}/isolinux/txt.cfg" dest="{{ new_iso }}/isolinux/txt.cfg"
+
+# build the ISO
+- command: sudo mkisofs -U -A "Custom1404" -V "Custom1404" -volset "Custom1404" -J -joliet-long -r -v -T -o ../Custom1404.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e boot/grub/efi.img -no-emul-boot .
+  args:
+    chdir: "{{ new_iso }}"
+  register: mkisofs
+
+- debug: var=mkisofs
+
+# verify the ISO
+- command: dumpet -i "{{ new_iso }}/../Custom1404.iso"
