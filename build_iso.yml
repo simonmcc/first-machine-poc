@@ -5,5 +5,11 @@
   gather_facts: false
   sudo: true
 
+  vars:
+    iso_builder_mini:
+      iso_basename: mini
+      iso_distro_flavor: mini
+      iso_url: "http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso"
+
   roles:
     - { role: iso_builder }

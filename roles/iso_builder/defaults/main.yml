@@ -3,6 +3,8 @@
 # can we use the mini iso instead?
 # http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso
 iso_distro: "ubuntu"
+# iso_distro_flavor: server|mini
+iso_distro_flavor: "server"
 iso_version: "14.04"
 iso_release: ".3"
 iso_flavor: "server"
@@ -14,8 +16,8 @@ iso_url: "{{ iso_urlbase }}/{{ iso_version }}/{{ iso_name }}"
 
 workdir: /tmp
 # trailing / is important for rsync to copy the contents
-mounted_iso: "{{ workdir }}/mounted_iso/"
-new_iso: "{{ workdir }}/new_iso/"
+mounted_iso: "{{ workdir }}/mounted_{{ iso_basename }}/"
+new_iso: "{{ workdir }}/new_{{ iso_basename }}_iso/"
 
 iso_dhcp: false
 iso_ip:  10.0.2.15

@@ -20,8 +20,9 @@ Vagrant.configure(2) do |config|
 
     iso_builder.vm.provision :shell, inline: "cp /vagrant/mini.iso /tmp/mini.iso"
     iso_builder.vm.provision "ansible" do |ansible|
-      ansible.playbook = "build-iso.yml"
+      ansible.playbook = "build_iso.yml"
     end
+    iso_builder.vm.provision :shell, inline: "cp /tmp/Custom.iso /vagrant/Custom.iso"
   end
 
   config.vm.define "boot-from-iso" do |iso_boot|
@@ -36,7 +37,7 @@ Vagrant.configure(2) do |config|
       # VBoxManage.exe storageattach "<uuid|vmname>" --storagectl IDE --port 0 --device 0 --type dvddrive --medium "X:\Folder\containing\the.iso"
       virtualbox.customize ["storageattach", :id, "--storagectl",
                               "IDE", "--port",  "0", "--device", "0", "--type", "dvddrive",
-                              "--medium", "/tmp/Custom1404.iso"]
+                              "--medium", "Custom.iso"]
     end
   end
 
