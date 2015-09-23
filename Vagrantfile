@@ -19,6 +19,7 @@ Vagrant.configure(2) do |config|
     iso_builder.vm.box = "hashicorp/precise64"
 
     iso_builder.vm.provision :shell, inline: "cp /vagrant/mini.iso /tmp/mini.iso"
+    iso_builder.vm.provision :shell, inline: "[[ ! -f /tmp/hos2.0-build01-399.iso ]] && cp /vagrant/hos2.0-build01-399.iso /tmp/ || exit 0"
     iso_builder.vm.provision "ansible" do |ansible|
       ansible.playbook = "build_iso.yml"
     end

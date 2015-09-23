@@ -6,10 +6,11 @@
   sudo: true
 
   vars:
-    iso_builder_mini:
-      iso_basename: mini
-      iso_distro_flavor: mini
-      iso_url: "http://archive.ubuntu.com/ubuntu/dists/trusty-updates/main/installer-amd64/current/images/netboot/mini.iso"
+    iso_distro: hlinux
+    iso_version: "01-399"
+    iso_distro_flavor: hlinux
+    iso_basename: "hos2.0-build01-399"
+    iso_url: "http://tarballs.gozer.ftclab.gozer.hpcloud.net/hos/hos-2.0.0/archived_build/01-399/{{ iso_basename }}.iso"
 
   roles:
-    - { role: iso_builder }
+    - { role: iso_builder, "{{ iso_builder_hlinux }}" }

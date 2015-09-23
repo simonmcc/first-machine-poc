@@ -15,6 +15,13 @@
     isolinux_cat: "isolinux.cat"
   when: iso_distro_flavor == "mini"
 
+- set_fact:
+    mounted_iso_creates: "{{ mounted_iso }}/linux"
+    isolinux_dir: "{{ new_iso }}"
+    isolinux_bin: "isolinux.bin"
+    isolinux_cat: "isolinux.cat"
+  when: iso_distro_flavor == "hlinux"
+
 - debug: var=mounted_iso_creates
 
 - apt: name=dumpet
@@ -32,6 +39,9 @@
   when: iso_distro_flavor == "server"
 - copy: content="en" dest="{{ new_iso }}/isolinux/lang"
   when: iso_distro_flavor == "server"
+
+# overwrite the default initrd with the netboot version
+#- shell: cp "{{ mounted_iso }}/dists/cattleprod/main/installer-amd64/current/images/netboot/debian-installer/amd64/initrd.gz" "{{ new_iso }}"
 
 - file: dest="{{ new_iso }}" mode=0775
 - copy: src="files/{{ iso_distro }}/{{ iso_version }}/{{ iso_distro_flavor }}/ks.preseed" dest="{{ new_iso }}/ks.preseed"

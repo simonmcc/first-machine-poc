@@ -3,6 +3,11 @@ Role Name
 
 A brief description of the role goes here.
 
+debian-installer notes:
+* https://www.debian.org/releases/wheezy/i386/apbs02.html.en
+* https://www.debian.org/releases/wheezy/i386/apbs03.html.en
+* https://www.debian.org/releases/stable/example-preseed.txt
+
 Requirements
 ------------
 
